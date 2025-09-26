@@ -1,3 +1,5 @@
+! Title: NyanKatX3
+! Version: 2025.0927.01
 ||js.wpadmngr.com^
 @@||i.namu.wiki^$important,document
 @@||www.photopea.com^$important,document
