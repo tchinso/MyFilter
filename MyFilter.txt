@@ -1,6 +1,8 @@
 ! Title: NyanKatX3
 ! Version: 2025.0927.01
 ||js.wpadmngr.com^
+||play.kakao.com^
+||shorformstats.kakao.com^
 @@||i.namu.wiki^$important,document
 @@||www.photopea.com^$important,document
 shadowban.yuzurisa.com##section.row:nth-child(3) > div.col.s12.offset-m1.m10.offset-l2.l8.center-align:last-child
