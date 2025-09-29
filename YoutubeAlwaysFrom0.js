@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         YouTube – always from 0 s (hiyori v3 – seekTo hammer)
 // @namespace    NyanKatX3
-// @version      1.3.0
+// @version      1.4.0
 // @description  플레이어가 완전히 뜬 뒤에도 집요하게 seekTo(0) 연타해서 이어보기를 무력화해…
 // @match        https://www.youtube.com/*
 // @run-at       document-start
