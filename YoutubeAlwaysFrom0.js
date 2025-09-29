@@ -23,7 +23,7 @@
         if (t > 0.05) player.seekTo(0, true);   // true → allowSeekAhead
       }
 
-      if (++ticks > 100) clearInterval(id);  // 50 ms × 100 = 5 s 동안 망치질
+      if (++ticks > 20) clearInterval(id);  // 50 ms × 20 = 1 s 동안 망치질
     }, 50);
   };
 
