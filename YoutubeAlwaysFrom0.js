@@ -10,7 +10,7 @@
 (() => {
   'use strict';
 
-  /** 한 동영상마다 최대 5 s 동안 0초로 끌어당기는 망치 */
+  /** 한 동영상마다 최대 0.8 s 동안 0초로 끌어당기는 망치 */
   const hammer = () => {
     let ticks = 0;
     const id = setInterval(() => {
@@ -23,7 +23,7 @@
         if (t > 0.05) player.seekTo(0, true);   // true → allowSeekAhead
       }
 
-      if (++ticks > 20) clearInterval(id);  // 50 ms × 20 = 1 s 동안 망치질
+      if (++ticks > 20) clearInterval(id);  // 50 ms × 16 = 0.8 s 동안 망치질
     }, 50);
   };
 
