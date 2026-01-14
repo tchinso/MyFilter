@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         YouTube – always from 0 s (hiyori v3 – seekTo hammer)
 // @namespace    NyanKatX3
-// @version      1.6.0
+// @version      1.7.0
 // @description  플레이어가 완전히 뜬 뒤에도 집요하게 seekTo(0) 연타해서 이어보기를 무력화해…
 // @match        https://www.youtube.com/*
 // @run-at       document-start
@@ -23,7 +23,7 @@
         if (t > 0.05) player.seekTo(0, true);   // true → allowSeekAhead
       }
 
-      if (++ticks > 20) clearInterval(id);  // 50 ms × 14 = 0.7 s 동안 망치질
+      if (++ticks > 10) clearInterval(id);  // 50 ms × 10 = 0.0 s 동안 망치질
     }, 50);
   };
 
