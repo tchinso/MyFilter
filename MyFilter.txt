@@ -1,5 +1,5 @@
 ! Title: NyanKatX3
-! Version: 2025.0927.01
+! Version: 2026.0125.01
 ||js.wpadmngr.com^
 ||play.kakao.com^
 ||shorformstats.kakao.com^
@@ -21,3 +21,4 @@ localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-c
 localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-container > div:first-child > div.recommendation-row.scene-recommendations:nth-child(6) > div.recommendation-row-head:first-child
 localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-container > div:first-child > div.recommendation-row.scene-recommendations:nth-child(7) > div.recommendation-row-head:first-child
 @@||fav.ju.mp^$important,document
+kone.gg#?#main div.flex.justify-center.py-3:has(> div[class*="w-[320px]"][class*="h-[50px]"][class*="min-[480px]:w-[468px]"][class*="min-[480px]:h-[60px]"][class*="lg:w-[728px]"][class*="lg:h-[90px]"] > iframe)
