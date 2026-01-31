@@ -1,5 +1,5 @@
 ! Title: NyanKatX3
-! Version: 2026.0125.02
+! Version: 2026.0131.01
 ||js.wpadmngr.com^
 ||play.kakao.com^
 ||shorformstats.kakao.com^
@@ -22,5 +22,4 @@ localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-c
 shadowban.yuzurisa.com##section.row:nth-child(3) > div.col.s12.offset-m1.m10.offset-l2.l8.center-align:last-child
 shadowban.yuzurisa.com##section.row:nth-child(3) > div.col.s12.offset-m1.m10.offset-l2.l8.center-align:nth-child(3) > div.card.flex-col > div.cboom_banner
 kone.gg#?#main div.flex.justify-center.py-3:has(> div[class*="w-[320px]"][class*="h-[50px]"][class*="min-[480px]:w-[468px]"][class*="min-[480px]:h-[60px]"][class*="lg:w-[728px]"][class*="lg:h-[90px]"] > iframe)
-kio.ac#?#body > *:matches-attr(id=/^[a-z]{8}$/)
 
