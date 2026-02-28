@@ -1,152 +1,109 @@
 // ==UserScript==
-// @name         kio.ac - "B/s)" 항목을 페이지 최상단 고정으로 이동
-// @namespace    https://greasyfork.org/
-// @version      1.0.2
-// @description  kio.ac에서 텍스트에 "B/s)"가 포함된 div.grow.overflow-hidden DOM을 페이지 최상단(고정 오버레이)으로 이동
-// @match        https://kio.ac/*
-// @run-at       document-idle
+// @name         kio.ac 실시간 전송 상태 표시기
+// @namespace    http://tampermonkey.net/
+// @version      1.0.3
+// @description  kio.ac 사이트에서 전송 중인 파일 상태(B/s)를 추출하여 최상단에 실시간으로 표시합니다.
+// @author       You
+// @match        *://kio.ac/*
+// @match        *://*.kio.ac/*
 // @grant        none
 // ==/UserScript==
 
-(() => {
-  'use strict';
+(function() {
+    'use strict';
 
-  const TARGET_TEXT = 'B/s)';
-  const TARGET_SELECTOR = 'div.grow.overflow-hidden';
-  const BOX_ID = 'gf-kio-bps-topbox';
-
-  function ensureTopBox() {
-    let box = document.getElementById(BOX_ID);
-    if (box) return box;
-
-    box = document.createElement('div');
-    box.id = BOX_ID;
-
-    // 페이지 최상단 고정 (항상 보이게)
-    Object.assign(box.style, {
-      position: 'fixed',
-      top: '0',
-      left: '0',
-      right: '0',
-      zIndex: '2147483647',
-      maxHeight: '45vh',
-      overflow: 'auto',
-      padding: '8px',
-      display: 'block',
-      background: 'rgba(0,0,0,0.55)',
-      backdropFilter: 'blur(6px)',
-      WebkitBackdropFilter: 'blur(6px)',
-      borderBottom: '1px solid rgba(255,255,255,0.18)',
+    // 1. 최상단에 고정될 표시용 오버레이 DOM 생성
+    const overlay = document.createElement('div');
+    overlay.id = 'kio-speed-overlay';
+    Object.assign(overlay.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.85)', // 가독성을 위한 반투명 검은색 배경
+        color: '#ffffff',
+        zIndex: '999999',
+        pointerEvents: 'none', // 이 오버레이가 기존 사이트 버튼 클릭을 방해하지 않도록 함 (클릭 관통)
+        display: 'none',
+        flexDirection: 'column',
+        fontSize: '13px',
+        fontFamily: 'sans-serif',
+        maxHeight: '40vh',
+        overflowY: 'hidden',
+        boxSizing: 'border-box'
     });
 
-    // 안쪽에서 원래 DOM 스타일이 깨질 수 있어서, 최소한의 “배치용 래퍼”만 둠
-    const inner = document.createElement('div');
-    inner.setAttribute('data-gf-inner', '1');
-    Object.assign(inner.style, {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '6px',
-      pointerEvents: 'auto',
-    });
-
-    // 상단 박스 자체도 클릭/스크롤 가능하게
-    box.style.pointerEvents = 'auto';
-    box.appendChild(inner);
-
-    // body 최상단에 삽입
-    (document.body || document.documentElement).prepend(box);
-    return box;
-  }
-
-  function isTarget(el) {
-    return (
-      el &&
-      el.nodeType === 1 &&
-      el.matches(TARGET_SELECTOR) &&
-      typeof el.textContent === 'string' &&
-      el.textContent.includes(TARGET_TEXT)
-    );
-  }
-
-  function moveToPageTop(el) {
-    const box = ensureTopBox();
-    const inner = box.querySelector('[data-gf-inner="1"]');
-    if (!inner) return;
-
-    // 이미 상단 박스 안이면 맨 위로만 올림
-    if (inner.contains(el)) {
-      if (inner.firstElementChild !== el) inner.prepend(el);
-      return;
-    }
-
-    // “이동됨” 표시 (중복 처리 방지 + 추적용)
-    el.dataset.gfKioMoved = '1';
-
-    // DOM을 통째로 상단 박스로 이동 + 맨 위로
-    inner.prepend(el);
-  }
-
-  function scanWithin(root) {
-    if (!root) return;
-
-    // root 자체가 엘리먼트면 먼저 체크
-    if (root.nodeType === 1 && isTarget(root)) {
-      moveToPageTop(root);
-    }
-
-    // root 내부에서 전부 찾기
-    const scope = (root.nodeType === 1) ? root : document.documentElement;
-    const list = scope.querySelectorAll?.(TARGET_SELECTOR);
-    if (!list || !list.length) return;
-
-    for (const el of list) {
-      if (isTarget(el)) moveToPageTop(el);
-    }
-  }
-
-  // 초기 스캔
-  scanWithin(document.documentElement);
-
-  // 변동 감지: “나중에 생김” + “텍스트가 바뀜”까지 대응
-  const pending = new Set();
-  let scheduled = false;
-
-  function schedule(node) {
-    if (node && node.nodeType) pending.add(node);
-    if (scheduled) return;
-
-    scheduled = true;
-    requestAnimationFrame(() => {
-      scheduled = false;
-
-      // body가 늦게 생기는 경우 대비
-      if (!document.getElementById(BOX_ID) && document.body) ensureTopBox();
-
-      for (const n of pending) {
-        // 텍스트 변경은 text node가 들어오니까, 부모로 올려서 스캔
-        if (n.nodeType === 3) {
-          scanWithin(n.parentElement);
-        } else {
-          scanWithin(n);
+    // Body 로드 대기 후 DOM 추가
+    const initOverlay = () => {
+        if (!document.body) {
+            requestAnimationFrame(initOverlay);
+            return;
         }
-      }
-      pending.clear();
-    });
-  }
+        document.body.appendChild(overlay);
+    };
+    initOverlay();
 
-  const observer = new MutationObserver((mutations) => {
-    for (const m of mutations) {
-      if (m.type === 'childList') {
-        for (const n of m.addedNodes) schedule(n);
-      } else if (m.type === 'characterData') {
-        schedule(m.target); // text node
-      }
-    }
-  });
+    // 2. 0.5초마다 DOM을 검사하여 상태 업데이트 (실시간 복제)
+    setInterval(() => {
+        // 조건에 맞는 DOM 찾기 (사용자가 지정한 class)
+        const targetElements = document.querySelectorAll('div.grow.overflow-hidden');
+        let hasActiveTransfers = false;
+        let overlayHtml = '';
 
-  observer.observe(document.documentElement, {
-    childList: true,
-    subtree: true,
-    characterData: true,
-  });
+        targetElements.forEach(el => {
+            const fullText = el.textContent || '';
+            
+            // "B/s)" 문자열이 포함된 DOM만 처리
+            if (fullText.includes('B/s)')) {
+                hasActiveTransfers = true;
+                
+                // 예시 구조를 바탕으로 파일명과 속도 텍스트 추출
+                const nameEl = el.querySelector('div.overflow-hidden.text-ellipsis:not(.text-xs)');
+                const speedEl = el.querySelector('div.overflow-hidden.text-ellipsis.text-xs');
+
+                let nameText = '';
+                let speedText = '';
+
+                if (nameEl && speedEl) {
+                    // 예시 DOM 구조와 정확히 일치할 때
+                    nameText = nameEl.textContent.trim();
+                    speedText = speedEl.textContent.trim();
+                } else {
+                    // 추후 웹사이트 구조가 살짝 바뀌었을 때를 대비한 Fallback (안전장치)
+                    const parts = (el.innerText || fullText).split('\n');
+                    if (parts.length >= 2) {
+                        nameText = parts[0].trim();
+                        speedText = parts.slice(1).join(' ').trim();
+                    } else {
+                        nameText = fullText.trim();
+                    }
+                }
+
+                // 복제할 내용을 HTML로 구성
+                overlayHtml += `
+                    <div style="display: flex; justify-content: space-between; padding: 6px 20px; border-bottom: 1px solid rgba(255,255,255,0.15);">
+                        <span style="font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%; color: #60a5fa;">
+                            ${nameText}
+                        </span>
+                        <span style="white-space: nowrap; font-family: monospace; font-size: 12px; color: #a7f3d0;">
+                            ${speedText}
+                        </span>
+                    </div>
+                `;
+            }
+        });
+
+        // 3. 화면 표시 업데이트 로직
+        if (hasActiveTransfers) {
+            overlay.innerHTML = overlayHtml;
+            if (overlay.style.display !== 'flex') {
+                overlay.style.display = 'flex';
+            }
+        } else {
+            // 조건에 맞는 진행 중인 항목이 없으면 오버레이 숨김
+            if (overlay.style.display !== 'none') {
+                overlay.style.display = 'none';
+            }
+        }
+    }, 500); // 0.5초(500ms)마다 갱신 (부하 없이 실시간처럼 작동)
 })();
