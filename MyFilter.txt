@@ -22,4 +22,5 @@ localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-c
 shadowban.yuzurisa.com##section.row:nth-child(3) > div.col.s12.offset-m1.m10.offset-l2.l8.center-align:last-child
 shadowban.yuzurisa.com##section.row:nth-child(3) > div.col.s12.offset-m1.m10.offset-l2.l8.center-align:nth-child(3) > div.card.flex-col > div.cboom_banner
 kone.gg#?#main div.flex.justify-center.py-3:has(> div[class*="w-[320px]"][class*="h-[50px]"][class*="min-[480px]:w-[468px]"][class*="min-[480px]:h-[60px]"][class*="lg:w-[728px]"][class*="lg:h-[90px]"] > iframe)
+deepl.com##div.pointer-events-auto.fixed.inset-x-0.bottom-0.z-\[1000\].mx-auto.sm\:bottom-6.max-w-\[1600px\].sm\:px-\[20px\].min-\[840px\]\:px-\[30px\].min-\[1000px\]\:px-\[50px\].min-\[1200px\]\:px-\[70px\].min-\[1400px\]\:px-\[100px\]:nth-child(2) > div.focus-visible-light-container.bg-blue-800.text-white.sm\:rounded-lg
 
