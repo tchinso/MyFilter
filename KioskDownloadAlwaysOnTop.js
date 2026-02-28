@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         kio.ac 실시간 전송 상태 표시기 (SPA/스타일 충돌 해결)
+// @name         kio.ac 실시간 전송 상태 표시기 (완벽 우회판)
 // @namespace    http://tampermonkey.net/
-// @version      1.0.4
-// @description  kio.ac 사이트에서 전송 중인 파일 상태를 추출하여 최상단에 실시간으로 표시합니다.
+// @version      1.0.5
+// @description  kio.ac 사이트의 Svelte DOM 통제와 CSS 간섭을 완벽히 우회하여 전송 상태를 표시합니다.
 // @author       You
 // @match        *://kio.ac/*
 // @match        *://*.kio.ac/*
@@ -12,45 +12,61 @@
 (function() {
     'use strict';
 
-    let overlay = null;
-
-    // 1. 오버레이 DOM 생성 및 유지 (사이트 라우팅 중 삭제되면 다시 생성)
-    function ensureOverlay() {
-        overlay = document.getElementById('kio-speed-overlay');
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.id = 'kio-speed-overlay';
-            // 사이트 테마의 간섭을 막기 위해 모든 속성에 !important 강제
-            overlay.style.cssText = `
+    // 1. 오버레이 컨테이너 생성 (Shadow DOM 적용)
+    function getOverlayContainer() {
+        // 호스트 ID 설정
+        let host = document.getElementById('kio-speed-tracker-host');
+        
+        if (!host) {
+            host = document.createElement('div');
+            host.id = 'kio-speed-tracker-host';
+            
+            // [핵심1] body가 아닌 html 문서 전체를 기준으로 강제 고정
+            host.style.cssText = `
                 position: fixed !important;
                 top: 0 !important;
                 left: 0 !important;
-                width: 100% !important;
-                background-color: rgba(0, 0, 0, 0.85) !important;
-                color: #ffffff !important;
-                z-index: 2147483647 !important; /* 브라우저가 허용하는 최대 높이 */
-                pointer-events: none !important; /* 클릭 방해 금지 */
-                display: none !important;
-                flex-direction: column !important;
-                font-size: 13px !important;
-                font-family: sans-serif !important;
-                max-height: 40vh !important;
-                overflow-y: hidden !important;
-                box-sizing: border-box !important;
+                width: 100vw !important;
+                z-index: 2147483647 !important;
+                pointer-events: none !important;
             `;
-            if (document.body) {
-                document.body.appendChild(overlay);
+            
+            // [핵심2] SvelteKit의 DOM 파괴를 피하기 위해 documentElement(<html> 태그)에 부착
+            if (document.documentElement) {
+                document.documentElement.appendChild(host);
             }
+
+            // [핵심3] Shadow DOM 개통 - 기존 사이트의 Tailwind CSS 등 스타일 간섭을 100% 차단
+            const shadow = host.attachShadow({ mode: 'open' });
+            const container = document.createElement('div');
+            container.id = 'kio-container';
+            
+            // CSP(Content-Security-Policy) 방어를 위해 style 태그가 아닌 요소 자체에 CSS 직접 부여
+            container.style.cssText = `
+                display: none;
+                flex-direction: column;
+                background-color: rgba(0, 0, 0, 0.85);
+                font-family: 'Segoe UI', sans-serif;
+                font-size: 14px;
+                max-height: 40vh;
+                overflow-y: hidden;
+                width: 100%;
+                box-sizing: border-box;
+                border-bottom: 2px solid #3b82f6;
+            `;
+            
+            shadow.appendChild(container);
         }
-        return overlay;
+        
+        return host.shadowRoot.getElementById('kio-container');
     }
 
-    // 2. 0.5초마다 데이터 추출 및 갱신
+    // 2. 상태 추출 및 실시간 업데이트 루프 (0.5초)
     setInterval(() => {
-        const activeOverlay = ensureOverlay();
-        if (!activeOverlay) return;
+        const container = getOverlayContainer();
+        if (!container) return;
 
-        // 첨부해주신 HTML 구조 기준 매칭 요소 탐색
+        // 사이트 내의 타겟 요소 찾기
         const targetElements = document.querySelectorAll('div.grow.overflow-hidden');
         let hasActiveTransfers = false;
         let overlayHtml = '';
@@ -58,23 +74,24 @@
         targetElements.forEach(el => {
             const fullText = el.textContent || '';
             
-            // 정규식을 사용해 대소문자나 공백에 상관없이 B/s) 가 있는지 검사 (예: MiB/s) , B/s) 등)
-            if (/B\/s\)/i.test(fullText)) {
+            // B/s) 문자열이 존재하면 진행 중인 다운로드로 간주
+            if (fullText.includes('B/s)')) {
                 hasActiveTransfers = true;
                 
-                const nameEl = el.querySelector('div.overflow-hidden.text-ellipsis:not(.text-xs)');
-                const speedEl = el.querySelector('div.overflow-hidden.text-ellipsis.text-xs');
-
                 let nameText = '';
                 let speedText = '';
+                
+                // 첨부된 HTML 구조 기준: .text-xs가 없는 것은 파일명, 있는 것은 속도/진행률
+                const nameEl = el.querySelector('div.overflow-hidden.text-ellipsis:not(.text-xs)');
+                const speedEl = el.querySelector('div.overflow-hidden.text-ellipsis.text-xs');
 
                 if (nameEl && speedEl) {
                     nameText = nameEl.textContent.trim();
                     speedText = speedEl.textContent.trim();
                 } else {
-                    // Fallback: 자식 요소를 못 찾을 경우 텍스트를 나누어서 강제 추출하는 백업 로직
+                    // 추후 웹페이지 구조 변경 시 안전장치 (정규식 분해)
                     const match = fullText.match(/(.*?)\s+(\d.*B\/s\))/i);
-                    if(match) {
+                    if (match) {
                         nameText = match[1].trim();
                         speedText = match[2].trim();
                     } else {
@@ -82,13 +99,13 @@
                     }
                 }
 
-                // 출력할 HTML 템플릿 (사이트 CSS에 묻히지 않도록 인라인 스타일 important 강제)
+                // 인라인 스타일로 UI 생성 (Shadow DOM 내부에 들어가므로 웹사이트의 CSS 파괴에 면역)
                 overlayHtml += `
-                    <div style="display: flex !important; justify-content: space-between !important; padding: 6px 20px !important; border-bottom: 1px solid rgba(255,255,255,0.15) !important;">
-                        <span style="font-weight: 600 !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; max-width: 60% !important; color: #60a5fa !important;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); color: #ffffff;">
+                        <span style="font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 65%; color: #93c5fd;">
                             ${nameText}
                         </span>
-                        <span style="white-space: nowrap !important; font-family: monospace !important; font-size: 12px !important; color: #a7f3d0 !important;">
+                        <span style="white-space: nowrap; font-family: monospace; font-size: 13px; color: #6ee7b7;">
                             ${speedText}
                         </span>
                     </div>
@@ -96,13 +113,13 @@
             }
         });
 
-        // 추출된 데이터가 있다면 표시하고, 없으면 숨김
+        // 결과 업데이트
         if (hasActiveTransfers) {
-            activeOverlay.innerHTML = overlayHtml;
-            // display 속성도 !important로 강제
-            activeOverlay.style.setProperty('display', 'flex', 'important');
+            container.innerHTML = overlayHtml;
+            container.style.display = 'flex';
         } else {
-            activeOverlay.style.setProperty('display', 'none', 'important');
+            container.style.display = 'none';
         }
+        
     }, 500);
 })();
