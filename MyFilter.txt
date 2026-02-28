@@ -1,5 +1,5 @@
 ! Title: NyanKatX3
-! Version: 2026.0131.01
+! Version: 2026.0228.01
 ||js.wpadmngr.com^
 ||play.kakao.com^
 ||shorformstats.kakao.com^
