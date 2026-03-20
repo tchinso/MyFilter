@@ -5,7 +5,7 @@
   const redirectRules = [
     { keyword: "twt", target: "https://x.com/i/communities/1489301791259115521" },
     { keyword: "video", target: "https://www.youtube.com/watch?v=DBcP4hq7oUU" },
-    { keyword: "decode", target: "https://tchinso.github.io/Favorites/app/TextDecoder/" }
+    { keyword: "decode", target: "https://tchinso.github.io/Favorites/app/TextDecoder" }
   ];
 
   const currentUrl = decodeURIComponent(window.location.href).toLowerCase();
