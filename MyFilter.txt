@@ -1,24 +1,11 @@
 ! Title: NyanKatX3
-! Version: 2026.0228.01
+! Version: 2026.0508.01
 ||js.wpadmngr.com^
 ||play.kakao.com^
 ||shorformstats.kakao.com^
 @@||i.namu.wiki^$important,document
 @@||www.photopea.com^$important,document
 @@||fav.ju.mp^$important,document
-localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-container > div:first-child > div.recommendation-row.scene-recommendations:first-child > div.recommendation-row-head:first-child
-localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-container > div:first-child > div.recommendation-row.scene-recommendations:first-child > div.slick-slider.slick-initialized:last-child > ul.slick-dots:last-child
-localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-container > div:first-child > div.recommendation-row.scene-recommendations:nth-child(2) > div.recommendation-row-head:first-child
-localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-container > div:first-child > div.recommendation-row.scene-recommendations:nth-child(2) > div.slick-slider.slick-initialized:last-child > ul.slick-dots:last-child
-localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-container > div:first-child > div.recommendation-row.scene-recommendations:nth-child(3) > div.recommendation-row-head:first-child
-localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-container > div:first-child > div.recommendation-row.scene-recommendations:nth-child(4) > div.recommendation-row-head:first-child
-localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-container > div:first-child > div.recommendation-row.scene-recommendations:nth-child(3) > div.slick-slider.slick-initialized:last-child > ul.slick-dots:last-child
-localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-container > div:first-child > div.recommendation-row.scene-recommendations:nth-child(4) > div.slick-slider.slick-initialized:last-child > ul.slick-dots:last-child
-localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-container > div:first-child > div.recommendation-row.scene-recommendations:last-child > div.recommendation-row-head:first-child
-localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-container > div:first-child > div.recommendation-row.scene-recommendations:last-child > div.slick-slider.slick-initialized:last-child > ul.slick-dots:last-child
-localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-container > div:first-child > div.recommendation-row.scene-recommendations:nth-child(5) > div.recommendation-row-head:first-child
-localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-container > div:first-child > div.recommendation-row.scene-recommendations:nth-child(6) > div.recommendation-row-head:first-child
-localhost###root > div.main.container-fluid:nth-child(3) > div.recommendations-container > div:first-child > div.recommendation-row.scene-recommendations:nth-child(7) > div.recommendation-row-head:first-child
 shadowban.yuzurisa.com##section.row:nth-child(3) > div.col.s12.offset-m1.m10.offset-l2.l8.center-align:last-child
 shadowban.yuzurisa.com##section.row:nth-child(3) > div.col.s12.offset-m1.m10.offset-l2.l8.center-align:nth-child(3) > div.card.flex-col > div.cboom_banner
 kone.gg#?#main div.flex.justify-center.py-3:has(> div[class*="w-[320px]"][class*="h-[50px]"][class*="min-[480px]:w-[468px]"][class*="min-[480px]:h-[60px]"][class*="lg:w-[728px]"][class*="lg:h-[90px]"] > iframe)
