@@ -1,5 +1,5 @@
 ! Title: NyanKatX3
-! Version: 2026.06.22
+! Version: 2026.06.23
 ||js.wpadmngr.com^
 ||play.kakao.com^
 ||shorformstats.kakao.com^
@@ -24,11 +24,15 @@ shadowban.yuzurisa.com##section.row:nth-child(3) > div.col.s12.offset-m1.m10.off
 kone.gg#?#main div.flex.justify-center.py-3:has(> div[class*="w-[320px]"][class*="h-[50px]"][class*="min-[480px]:w-[468px]"][class*="min-[480px]:h-[60px]"][class*="lg:w-[728px]"][class*="lg:h-[90px]"] > iframe)
 deepl.com##div.pointer-events-auto.fixed.inset-x-0.bottom-0.z-\[1000\].mx-auto.sm\:bottom-6.max-w-\[1600px\].sm\:px-\[20px\].min-\[840px\]\:px-\[30px\].min-\[1000px\]\:px-\[50px\].min-\[1200px\]\:px-\[70px\].min-\[1400px\]\:px-\[100px\]:nth-child(2) > div.focus-visible-light-container.bg-blue-800.text-white.sm\:rounded-lg
 kio.ac$$script:contains(K$())
-kio.ac##[data-placement-id^="revbid-"]
-kio.ac##canvas[width="300"][height="150"]
 kio.ac$$script[tag-content="K$()"]
 kio.ac##+js(nostif, mode:"no-cors")
+kio.ac##[data-placement-id^="revbid-"]
 kio.ac##+js(no-fetch-if, mode:no-cors)
 kio.ac##+js(no-fetch-if, mode%3Ano-cors)
+kio.ac##canvas[width="300"][height="150"]
 kio.ac##main > div:has(> div > div > a > img)
+kio.ac##main > div.w-full:has(> div.items-center > div:empty)
+kio.ac##body > div[id][class] > [id][class][style^="position: absolute; width: 0px;"] ~ [id][class]
 kio.ac#%#//scriptlet('remove-attr', 'disabled', 'div[data-slot="dialog-footer"] > div.flex > button')
+kio.ac#%#//scriptlet('inject-css-in-shadow-dom', 'style + [class][style="pointer-events: auto;"] { display: none !important; }')
+
