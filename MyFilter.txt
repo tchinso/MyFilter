@@ -1,5 +1,5 @@
 ! Title: NyanKatX3
-! Version: 2026.06.07
+! Version: 2026.06.22
 ||js.wpadmngr.com^
 ||play.kakao.com^
 ||shorformstats.kakao.com^
@@ -31,3 +31,4 @@ kio.ac##+js(nostif, mode:"no-cors")
 kio.ac##+js(no-fetch-if, mode:no-cors)
 kio.ac##+js(no-fetch-if, mode%3Ano-cors)
 kio.ac##main > div:has(> div > div > a > img)
+kio.ac#%#//scriptlet('remove-attr', 'disabled', 'div[data-slot="dialog-footer"] > div.flex > button')
