@@ -1,0 +1,6 @@
+{"type":"css","expr":"div.data-item:first-child .is-line-clamp","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":"div:nth-child(2) .is-line-clamp","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":"div:nth-child(3) .is-line-clamp","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":"div:nth-child(4) .is-line-clamp","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":"div:nth-child(5) .is-line-clamp","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":"div:nth-child(6) .is-line-clamp","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
