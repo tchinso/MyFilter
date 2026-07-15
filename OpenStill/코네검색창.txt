@@ -1,0 +1,6 @@
+{"type":"css","expr":".contents .text-sm [class*='group-hover/article'] span:first-child + .text-nowrap","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":".contents .text-sm [class*='group-hover/article'] span:nth-child(2) + .text-nowrap","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":".contents .text-sm [class*='group-hover/article'] span:nth-child(3) + .text-nowrap","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":".contents .text-sm [class*='group-hover/article'] span:nth-child(4) + .text-nowrap","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":".contents .text-sm [class*='group-hover/article'] span:nth-child(5) + .text-nowrap","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":".contents .text-sm [class*='group-hover/article'] span:nth-child(6) + .text-nowrap","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
