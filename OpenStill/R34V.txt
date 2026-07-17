@@ -1,0 +1,8 @@
+{"type":"css","expr":".video_1 .thumb_title","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":".video_2 .thumb_title","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":".video_3 .thumb_title","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":".video_4 .thumb_title","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":".video_5 .thumb_title","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":".video_6 .thumb_title","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":".video_7 .thumb_title","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
+{"type":"css","expr":".video_8 .thumb_title","op":"include","frameId":0,"framePath":[],"fields":[{"type":"text"}],"fieldsSpecified":true}
