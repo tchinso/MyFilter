@@ -1,5 +1,5 @@
 ! Title: NyanKatX3
-! Version: 2026.07.01
+! Version: 2026.08.02
 ||js.wpadmngr.com^
 ||play.kakao.com^
 ||shorformstats.kakao.com^
@@ -34,4 +34,5 @@ kio.ac##main > div:has(> div > div > a > img)
 kio.ac##main > div.w-full:has(> div.items-center > div:empty)
 kio.ac##body > div[id][class] > [id][class][style^="position: absolute; width: 0px;"] ~ [id][class]
 kio.ac#%#//scriptlet('inject-css-in-shadow-dom', 'style + [class][style="pointer-events: auto;"] { display: none !important; }')
+naver.com##.DailyBoardView-module__daily_board_area___Q6Jmf
 
