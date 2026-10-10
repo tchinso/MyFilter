@@ -5,7 +5,7 @@
 // @description  본인 사이트 테스트용 is_admin 강제 설정
 // @match        https://commi.kr/*
 // @grant        none
-// @run-at       document-start
+// @run-at       document-idle
 // ==/UserScript==
 
 (function() {
